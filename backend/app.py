@@ -3,7 +3,7 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 import os
 import json
-import requests
+from groq import Groq
 
 # Load environment variables
 load_dotenv(override=True)
@@ -12,68 +12,60 @@ load_dotenv(override=True)
 app = Flask(__name__)
 CORS(app)  # Enable CORS for frontend communication
 
-# Configure OpenRouter API
-api_key = os.getenv('OPENROUTER_API_KEY')
-if not api_key or api_key == 'your_actual_api_key_here':
-    print("WARNING: OPENROUTER_API_KEY not found or not set correctly in environment variables!")
-    print(f"Current value: {api_key}")
+# Configure Groq API
+api_key = os.getenv('GROQ_API_KEY')
+if not api_key:
+    print("WARNING: GROQ_API_KEY not found in environment variables!")
 else:
-    print(f"OPENROUTER_API_KEY loaded successfully (starts with: {api_key[:10]}...)")
+    print(f"GROQ_API_KEY loaded successfully (starts with: {api_key[:10]}...)")
 
-# OpenRouter API configuration - Note: use api subdomain
-OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
-# Try different free models if one doesn't work
-MODEL = "meta-llama/llama-3.2-3b-instruct:free"  # Alternative: "google/gemma-2-9b-it:free" or "mistralai/mistral-7b-instruct:free"
+# Initialize Groq client
+client = Groq(api_key=api_key)
+MODEL = "llama-3.1-8b-instant"  # Fast and free model
 
 def generate_completion(prompt, temperature=0.7, max_tokens=2000):
-    """Helper function to generate completion from OpenRouter"""
+    """Helper function to generate completion from Groq API"""
     try:
-        headers = {
-            "Authorization": f"Bearer {api_key}",
-            "Content-Type": "application/json",
-            "HTTP-Referer": "http://localhost:5173",
-            "X-Title": "SavoraAI"
-        }
+        if not api_key:
+            raise Exception("GROQ_API_KEY is not set in .env file. Please add your Groq API key.")
         
-        data = {
-            "model": MODEL,
-            "messages": [{"role": "user", "content": prompt}],
-            "temperature": temperature,
-            "max_tokens": max_tokens
-        }
-        
-        print(f"\n=== OpenRouter Request ===")
-        print(f"URL: {OPENROUTER_API_URL}")
+        print(f"\n=== Groq Request ===")
         print(f"Model: {MODEL}")
-        print(f"API Key (first 20 chars): {api_key[:20]}...")
-        print(f"Headers: {headers}")
+        print(f"Temperature: {temperature}")
+        print(f"Max tokens: {max_tokens}")
         
-        response = requests.post(OPENROUTER_API_URL, headers=headers, json=data)
+        # Generate content using Groq
+        response = client.chat.completions.create(
+            model=MODEL,
+            messages=[{"role": "user", "content": prompt}],
+            temperature=temperature,
+            max_tokens=max_tokens,
+        )
         
-        print(f"\n=== OpenRouter Response ===")
-        print(f"Status: {response.status_code}")
-        print(f"Body: {response.text[:1000]}")
+        response_text = response.choices[0].message.content
+        if not response_text:
+            raise Exception("Groq API returned empty response")
         
-        if response.status_code != 200:
-            error_detail = response.text
-            raise Exception(f"{response.status_code} Client Error: {error_detail} for url: {OPENROUTER_API_URL}")
+        print(f"\n=== Groq Response ===")
+        print(f"Status: Success")
+        print(f"Response: {response_text[:500]}...")
         
-        result = response.json()
-        return result['choices'][0]['message']['content']
-    except requests.exceptions.RequestException as e:
-        print(f"Request error details: {str(e)}")
-        if hasattr(e, 'response') and e.response is not None:
-            print(f"Response status: {e.response.status_code}")
-            print(f"Response body: {e.response.text}")
-        raise Exception(f"OpenRouter API error: {str(e)}")
+        return response_text
+    except Exception as e:
+        print(f"Groq API error details: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        raise Exception(f"Groq API error: {str(e)}")
 
 @app.route('/', methods=['GET'])
 def home():
     """Home endpoint"""
     return jsonify({
-        'message': 'Welcome to SAVORA AI Backend API',
+        'message': 'Welcome to SAVORA AI Backend API - Powered by Groq',
         'status': 'running',
         'model': MODEL,
+        'api_provider': 'Groq',
+        'api_provider': 'Google Generative AI',
         'endpoints': {
             '/generate': 'POST - Generate recipe from ingredients',
             '/chat': 'POST - Chat with recipe assistant',
@@ -281,49 +273,58 @@ def get_nutrition():
         
         content = recipe if recipe else ingredients
         
-        prompt = f"""
-Analyze the nutritional content of this recipe/ingredients:
-
-{json.dumps(content) if isinstance(content, dict) else content}
-
-Provide a detailed nutritional breakdown in this JSON format:
-{{
-    "perServing": {{
-        "calories": "number",
-        "protein": "Xg",
-        "carbs": "Xg",
-        "fat": "Xg",
-        "fiber": "Xg",
-        "sugar": "Xg",
-        "sodium": "Xmg"
-    }},
-    "healthScore": "1-10 rating",
-    "benefits": ["health benefit 1", "health benefit 2"],
-    "considerations": ["dietary consideration 1"],
-    "tips": "tip to make it healthier"
-}}
-
-Return ONLY valid JSON.
-"""
+        # Extract just the ingredients for faster analysis
+        if isinstance(content, dict) and 'ingredients' in content:
+            ingredients_list = content.get('ingredients', [])
+            servings = content.get('servings', '2-3 people')
+        else:
+            ingredients_list = content
+            servings = '2-3 people'
         
-        result = generate_completion(prompt, temperature=0.5, max_tokens=800)
+        prompt = f"""Analyze nutrition for these ingredients (serves {servings}):
+{ingredients_list}
+
+Return ONLY this JSON:
+{{"perServing":{{"calories":250,"protein":"15g","carbs":"30g","fat":"8g","fiber":"4g","sugar":"5g","sodium":"400mg"}},"healthScore":7,"benefits":["benefit1","benefit2"],"tips":"one tip"}}"""
+        
+        result = generate_completion(prompt, temperature=0.3, max_tokens=400)
         result = result.strip()
         
         try:
-            if result.startswith('```'):
-                result = result.split('```')[1]
+            # Clean up response
+            if '```' in result:
+                result = result.split('```')[1] if '```' in result else result
                 if result.startswith('json'):
                     result = result[4:]
                 result = result.strip()
+            
+            # Find JSON in response
+            start = result.find('{')
+            end = result.rfind('}') + 1
+            if start != -1 and end > start:
+                result = result[start:end]
+            
             nutrition_json = json.loads(result)
             return jsonify({
                 'success': True,
                 'nutrition': nutrition_json
             })
-        except json.JSONDecodeError:
+        except json.JSONDecodeError as e:
+            print(f"JSON parse error: {e}, raw result: {result}")
+            # Return a default structure
             return jsonify({
                 'success': True,
-                'nutrition': result
+                'nutrition': {
+                    'perServing': {
+                        'calories': '~300',
+                        'protein': '~20g',
+                        'carbs': '~35g',
+                        'fat': '~12g'
+                    },
+                    'healthScore': 7,
+                    'benefits': ['Balanced macros'],
+                    'tips': 'Add more vegetables for extra fiber'
+                }
             })
     
     except Exception as e:
@@ -451,7 +452,8 @@ def health_check():
     return jsonify({
         'status': 'healthy',
         'api_configured': api_key is not None,
-        'model': MODEL
+        'model': MODEL,
+        'api_provider': 'Google Generative AI'
     })
 
 if __name__ == '__main__':

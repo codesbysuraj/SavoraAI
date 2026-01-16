@@ -1,17 +1,9 @@
 # 🍳 SAVORA AI - Setup Guide
 
-Complete hackathon-ready AI recipe generation platform!
 
-## 📋 Prerequisites
-
-- Node.js (v16 or higher)
-- Python (v3.8 or higher)
-- Google Gemini API Key
-- Firebase Account
 
 ---
 
-## 🚀 Quick Setup
 
 ### 1️⃣ Backend Setup
 
@@ -34,26 +26,7 @@ pip install -r requirements.txt
 # Copy .env.example to .env and add your Gemini API key
 GEMINI_API_KEY=your_actual_api_key_here
 
-# Run Flask server
-python app.py
-```
 
-Backend will run on: `http://localhost:5000`
-
-### 2️⃣ Frontend Setup
-
-```bash
-# Navigate to frontend folder
-cd frontend
-
-# Install dependencies
-npm install
-
-# Run development server
-npm run dev
-```
-
-Frontend will run on: `http://localhost:3000`
 
 ---
 
@@ -239,18 +212,8 @@ Rescue a failed recipe (bonus endpoint)
 
 ---
 
-## 🎨 Customization
 
-### Change Theme Colors
-Edit `frontend/src/styles.css` and modify:
-- Primary color: `#764ba2` (purple)
-- Secondary color: `#667eea` (blue)
-- Gradient: `linear-gradient(135deg, #667eea 0%, #764ba2 100%)`
 
-### Add More Cuisines
-Edit `frontend/src/components/Filters.jsx`:
-```javascript
-const cuisines = ['Any', 'Indian', 'Chinese', 'YOUR_CUISINE'];
 ```
 
 ### Modify AI Prompts
