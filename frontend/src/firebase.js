@@ -6,13 +6,13 @@ import { getFirestore } from 'firebase/firestore';
 // Your Firebase configuration
 // Replace with your actual Firebase project config from Firebase Console
 const firebaseConfig = {
-  apiKey: "AIzaSyDRmLIy6DgMhrI4GR38grQ5FgDB8xcdVU8",
-  authDomain: "savora-d62b4.firebaseapp.com",
-  projectId: "savora-d62b4",
-  storageBucket: "savora-d62b4.firebasestorage.app",
-  messagingSenderId: "366768962791",
-  appId: "1:366768962791:web:b48d11ab4be24717fe7642",
-  measurementId: "G-EQDQ7471SZ"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase

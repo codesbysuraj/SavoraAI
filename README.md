@@ -1,256 +1,160 @@
-# 🍳 SAVORA AI - Setup Guide
+# SAVORA AI 🍳
 
+A smart recipe generator that helps you create meals from whatever ingredients you have at home. Built with React, Flask, and Google Gemma AI.
 
+## What it does
 
----
+This app generates personalized recipes based on what you have in your kitchen. Just enter your ingredients, set your preferences (cuisine type, spice level, dietary restrictions), and get AI-generated recipes with step-by-step instructions.
 
+**Key features:**
+- AI recipe generation using Google Gemma
+- Voice input for ingredients
+- Save your favorite recipes
+- Recipe history tracking
+- Interactive cooking chatbot
+- Firebase authentication with Google Sign-In
+- Filters for cuisine, meal type, portion size, and dietary needs
 
-### 1️⃣ Backend Setup
+## Getting Started
+
+**You'll need:**
+- Python 3.8 or higher
+- Node.js 16 or higher
+- A Firebase account
+- An OpenRouter API key
+
+### Backend Setup
 
 ```bash
 # Navigate to backend folder
 cd backend
 
-# Create virtual environment (Windows)
+# Create virtual environment
 python -m venv venv
-venv\Scripts\activate
 
-# Create virtual environment (Mac/Linux)
-python3 -m venv venv
+# Activate virtual environment
+# Windows:
+venv\Scripts\activate
+# Mac/Linux:
 source venv/bin/activate
 
 # Install dependencies
 pip install -r requirements.txt
 
-# Create .env file
-# Copy .env.example to .env and add your Gemini API key
-GEMINI_API_KEY=your_actual_api_key_here
+# Setup environment variables
+# Copy .env.example to .env
+cp .env.example .env
 
+# Edit .env and add your OpenRouter API key
+# OPENROUTER_API_KEY=your_api_key_here
 
-
----
-
-## 🔑 Getting API Keys
-
-### Google Gemini API Key
-1. Go to [Google AI Studio](https://makersuite.google.com/app/apikey)
-2. Click "Get API Key"
-3. Copy the key and paste it in `backend/.env`
-
-### Firebase Configuration
-1. Go to [Firebase Console](https://console.firebase.google.com/)
-2. Create a new project
-3. Enable Authentication (Email/Password + Google)
-4. Create Firestore Database
-5. Go to Project Settings → Add Web App
-6. Copy the config object
-7. Paste it in `frontend/src/firebase.js`
-
-Example Firebase config:
-```javascript
-const firebaseConfig = {
-  apiKey: "AIza...",
-  authDomain: "your-app.firebaseapp.com",
-  projectId: "your-project-id",
-  storageBucket: "your-app.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "1:123456789:web:abc..."
-};
+# Run the Flask server
+python app.py
 ```
 
----
+Backend runs on `http://localhost:5000`
 
-## 📁 Project Structure
+### Frontend Setup
+
+```bash
+# Navigate to frontend folder
+cd frontend
+
+# Install dependencies
+npm install
+
+# Setup environment variables
+# Copy .env.example to .env
+cp .env.example .env
+
+# Edit .env and add your Firebase credentials
+# VITE_FIREBASE_API_KEY=your_firebase_api_key
+# VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+# etc...
+
+# Run the development server
+npm run dev
+```
+
+Frontend runs on `http://localhost:5173`
+
+## API Keys Setup
+
+**OpenRouter API Key:**
+1. Sign up at [OpenRouter](https://openrouter.ai/)
+2. Go to the Keys section and generate a new key
+3. Add it to `backend/.env` file
+
+**Firebase Setup:**
+1. Create a project in [Firebase Console](https://console.firebase.google.com/)
+2. Enable Authentication (Email/Password and Google Sign-In)
+3. Create a Firestore Database
+4. Go to Project Settings and add a web app
+5. Copy the config values to `frontend/.env`
+
+## Project Structure
 
 ```
 SavoraAI/
 ├── backend/
-│   ├── app.py                  # Flask API server
-│   ├── .env                    # Environment variables
-│   ├── requirements.txt        # Python dependencies
-│   └── .env.example           # Example env file
+│   ├── app.py              # Flask API server
+│   ├── requirements.txt    # Python dependencies
+│   ├── .env.example        # Example environment file
+│   └── firestore.rules     # Firestore security rules
 │
 ├── frontend/
-│   ├── index.html             # HTML entry point
-│   ├── package.json           # NPM dependencies
-│   ├── vite.config.js         # Vite configuration
-│   └── src/
-│       ├── main.jsx           # React entry point
-│       ├── App.jsx            # Main app component
-│       ├── firebase.js        # Firebase configuration
-│       ├── styles.css         # Global styles
-│       ├── pages/
-│       │   ├── Home.jsx       # Main recipe generation page
-│       │   ├── Login.jsx      # Authentication page
-│       │   ├── History.jsx    # User recipe history
-│       │   └── Favorites.jsx  # Saved favorite recipes
-│       └── components/
-│           ├── Navbar.jsx     # Navigation bar
-│           ├── RecipeCard.jsx # Recipe display card
-│           ├── Filters.jsx    # Recipe filters
-│           ├── VoiceInput.jsx # Voice-to-text input
-│           └── Chatbot.jsx    # AI cooking assistant
+│   ├── src/
+│   │   ├── App.jsx         # Main app component
+│   │   ├── firebase.js     # Firebase configuration
+│   │   ├── pages/          # Page components
+│   │   │   ├── Home.jsx
+│   │   │   ├── Login.jsx
+│   │   │   ├── History.jsx
+│   │   │   └── Favorites.jsx
+│   │   └── components/     # Reusable components
+│   │       ├── Navbar.jsx
+│   │       ├── RecipeCard.jsx
+│   │       ├── Filters.jsx
+│   │       ├── VoiceInput.jsx
+│   │       └── Chatbot.jsx
+│   ├── package.json
+│   ├── vite.config.js
+│   └── .env.example
+│
+└── README.md
 ```
 
----
+## Tech Stack
 
-## ✨ Features Implemented
+**Frontend:** React 18, Vite, Firebase (Auth & Firestore), Web Speech API
 
-### Core Features
-✅ AI-generated dynamic recipes  
-✅ Ingredient-based recipe generation  
-✅ Step-by-step cooking instructions  
-✅ History of previously generated recipes  
-✅ Save favorite recipes  
+**Backend:** Flask, Flask-CORS, OpenRouter API, Google Gemma 2 9B IT, Python dotenv
 
-### Smart Features
-✅ Multi-cuisine support (Indian, Chinese, Continental, Italian, Mexican, Thai)  
-✅ Estimated cooking time  
-✅ Portion-based recipe generation (1 person / 2-3 / 4-6 / Family)  
-✅ Alternative ingredient suggestions  
-✅ AI Chatbot for follow-up cooking questions  
-✅ Voice assistant input (browser speech-to-text)  
+## Security ⚠️
 
-### Filter Features
-✅ Taste filters: Sweet / Savory / Spicy  
-✅ Meal type filters: Breakfast / Lunch / Dinner / Snack  
-✅ Cuisine filters: Multiple cuisines  
-✅ Portion size selection  
+Don't commit sensitive data to Git. All API keys and credentials should be in `.env` files, which are already ignored by git.
 
----
+## API Endpoints
 
-## 🎯 How to Use
+The backend API runs on `http://localhost:5000` with these endpoints:
 
-1. **Login/Register**: Create an account or login with Google
-2. **Enter Ingredients**: Type or speak ingredients you have
-3. **Apply Filters**: Select cuisine, taste, meal type, and portion size
-4. **Generate Recipe**: Click "Generate Recipe" button
-5. **View Recipe**: See AI-generated recipe with steps and tips
-6. **Save Favorite**: Save recipes you love
-7. **Ask Chatbot**: Get help with cooking questions
-8. **View History**: Access your previously generated recipes
+- `GET /` - Health check
+- `POST /generate` - Generate recipe from ingredients
+- `POST /chat` - Chat with AI assistant
+- `POST /rescue` - Get help with cooking problems
+- `POST /nutrition` - Get nutrition info
+- `POST /meal-plan` - Generate meal plans
 
----
+## Deployment
 
-## 🐛 Troubleshooting
+**Backend:** Deploy to Heroku, Railway, or Render. Make sure to set your `OPENROUTER_API_KEY` environment variable.
 
-### Backend won't start
-- Make sure virtual environment is activated
-- Check if port 5000 is available
-- Verify Gemini API key in .env file
+**Frontend:** Deploy to Vercel or Netlify. Build with `npm run build` and deploy the `dist` folder. Don't forget to add all your Firebase environment variables.
 
-### Frontend won't start
-- Run `npm install` again
-- Delete `node_modules` and run `npm install`
-- Check if port 3000 is available
+## Contributing
 
-### Firebase errors
-- Verify Firebase config in firebase.js
-- Enable Authentication methods in Firebase Console
-- Check Firestore rules allow read/write
+Pull requests are welcome. Feel free to open an issue if you find bugs or have suggestions.
 
-### CORS errors
-- Make sure Flask backend is running
-- Check flask-cors is installed
-- Verify backend URL in frontend (localhost:5000)
+## License
 
----
-
-## 📝 API Endpoints
-
-### POST /generate
-Generate a recipe based on ingredients and filters
-
-**Request Body:**
-```json
-{
-  "ingredients": ["chicken", "rice", "tomatoes"],
-  "cuisine": "Indian",
-  "taste": "Spicy",
-  "mealType": "Dinner",
-  "portion": "2-3 people"
-}
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "recipe": "Formatted recipe text..."
-}
-```
-
-### POST /chat
-Ask follow-up cooking questions
-
-**Request Body:**
-```json
-{
-  "question": "Can I substitute chicken with paneer?",
-  "recipeContext": "Full recipe text..."
-}
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "answer": "Yes, you can substitute..."
-}
-```
-
-### POST /rescue
-Rescue a failed recipe (bonus endpoint)
-
-**Request Body:**
-```json
-{
-  "problem": "My curry is too salty",
-  "dishType": "Chicken Curry"
-}
-```
-
----
-
-
-
-```
-
-### Modify AI Prompts
-Edit `backend/app.py` to customize how Gemini generates recipes
-
----
-
-## 🚀 Deployment Tips
-
-### Deploy Backend (Render/Railway)
-1. Push code to GitHub
-2. Connect repository
-3. Add GEMINI_API_KEY environment variable
-4. Deploy
-
-### Deploy Frontend (Vercel/Netlify)
-1. Push code to GitHub
-2. Connect repository
-3. Add Firebase config as environment variables
-4. Set build command: `npm run build`
-5. Set publish directory: `dist`
-6. Deploy
-
----
-
-## 📧 Support
-
-If you encounter any issues:
-1. Check the troubleshooting section
-2. Verify all API keys are correct
-3. Ensure both backend and frontend are running
-4. Check browser console for errors
-
----
-
-## 🎉 You're Ready!
-
-Start the backend, start the frontend, and start cooking with AI! 🍳✨
-
-**Happy Hacking! 🚀**
+MIT License - feel free to use this project however you'd like.
