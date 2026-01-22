@@ -202,9 +202,30 @@ SavoraAI/
 
 **Backend:** Flask, Flask-CORS, OpenRouter API, Google Gemma 2 9B IT, Python dotenv
 
+## 👥 Contributors
+
+This project was collaboratively developed by:
+
+<table>
+<tr>
+<td align="center">
+<a href="https://github.com/codesbysuraj">
+<img src="https://github.com/codesbysuraj.png" width="100px" alt="Suraj"/><br />
+<b>Suraj</b>
+</a>
+</td>
+<td align="center">
+<a href="https://github.com/YashicaThanekar">
+<img src="https://github.com/YashicaThanekar.png" width="100px" alt="Yashica Thanekar"/><br />
+<b>Yashica Thanekar</b>
+</a>
+</td>
+</tr>
+</table>
+
 ## 🤝 Contributing
 
-While this is a personal project, I appreciate feedback and suggestions! If you find any bugs or have ideas for improvements:
+We appreciate feedback and suggestions! If you find any bugs or have ideas for improvements:
 
 1. Open an issue describing the bug or feature request
 2. Feel free to fork and experiment
@@ -212,7 +233,7 @@ While this is a personal project, I appreciate feedback and suggestions! If you 
 
 ## 📜 License & Usage
 
-**© 2026 Suraj. All Rights Reserved.**
+**© 2026 Suraj & Yashica Thanekar. All Rights Reserved.**
 
 This project is provided for **educational and demonstration purposes only**. 
 
@@ -220,7 +241,7 @@ This project is provided for **educational and demonstration purposes only**.
 - You may **view and study** the code for learning purposes
 - You may **not redistribute, modify, or use** this code for commercial purposes
 - You may **not claim** this work as your own
-- **Contact me** for permission if you wish to use any part of this project
+- **Contact us** for permission if you wish to use any part of this project
 
 For collaboration or licensing inquiries, please open an issue or reach out directly.
 
@@ -228,7 +249,7 @@ For collaboration or licensing inquiries, please open an issue or reach out dire
 
 <div align="center">
 
-**Made with ❤️ by [Suraj](https://github.com/codesbysuraj)**
+**Made with ❤️ by [Suraj](https://github.com/codesbysuraj) & [Yashica Thanekar](https://github.com/YashicaThanekar)**
 
 If you found this project interesting, give it a ⭐!
 
