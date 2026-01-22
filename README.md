@@ -1,27 +1,78 @@
-# SAVORA AI 🍳
+<div align="center">
 
-A smart recipe generator that helps you create meals from whatever ingredients you have at home. Built with React, Flask, and Google Gemma AI.
+# 🍳 SAVORA AI
 
-## What it does
+### Transform Your Kitchen Ingredients Into Delicious Recipes
 
-This app generates personalized recipes based on what you have in your kitchen. Just enter your ingredients, set your preferences (cuisine type, spice level, dietary restrictions), and get AI-generated recipes with step-by-step instructions.
+*An intelligent recipe generator powered by AI that creates personalized meals based on what you already have at home*
 
-**Key features:**
-- AI recipe generation using Google Gemma
-- Voice input for ingredients
-- Save your favorite recipes
-- Recipe history tracking
-- Interactive cooking chatbot
-- Firebase authentication with Google Sign-In
-- Filters for cuisine, meal type, portion size, and dietary needs
+[![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://reactjs.org/)
+[![Flask](https://img.shields.io/badge/Flask-3.0-000000?style=for-the-badge&logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
+[![Firebase](https://img.shields.io/badge/Firebase-v10-FFCA28?style=for-the-badge&logo=firebase&logoColor=white)](https://firebase.google.com/)
+[![Google Gemma](https://img.shields.io/badge/Google_Gemma-AI-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://ai.google.dev/)
 
-## Getting Started
+[Features](#features) • [Demo](#demo) • [Installation](#installation) • [Tech Stack](#tech-stack)
 
-**You'll need:**
-- Python 3.8 or higher
-- Node.js 16 or higher
-- A Firebase account
-- An OpenRouter API key
+</div>
+
+---
+
+## 🌟 Features
+
+<table>
+<tr>
+<td width="50%">
+
+### 🤖 **AI-Powered Generation**
+Generate custom recipes using Google Gemma's advanced AI model through OpenRouter API.
+
+### 🎤 **Voice Recognition**
+Speak your ingredients - our voice input feature converts speech to text seamlessly.
+
+### 💾 **Smart Storage**
+Save favorite recipes and access your complete recipe history anytime.
+
+</td>
+<td width="50%">
+
+### 💬 **Interactive Assistant**
+Get instant cooking help, substitution suggestions, and tips from our AI chatbot.
+
+### 🔐 **Secure Authentication**
+Firebase-powered authentication with Google Sign-In for seamless access.
+
+### 🎛️ **Advanced Filters**
+Customize by cuisine type, dietary restrictions, spice levels, portion sizes, and more.
+
+</td>
+</tr>
+</table>
+
+---
+
+## 🎬 Demo
+
+> **Note:** This project is for educational and portfolio purposes. 
+
+**What makes SAVORA AI special:**
+- Real-time recipe generation based on available ingredients
+- Multi-cuisine support (Indian, Chinese, Italian, Mexican, Thai, and more)
+- Dietary restriction awareness (Vegetarian, Vegan, Gluten-Free, etc.)
+- Smart spice level customization
+- Cooking time estimation
+- Nutritional information and meal planning
+
+---
+
+## 🚀 Installation
+
+### Prerequisites
+
+Before you begin, ensure you have the following installed:
+- **Python 3.8+** - [Download](https://www.python.org/downloads/)
+- **Node.js 16+** - [Download](https://nodejs.org/)
+- **Firebase Account** - [Sign up](https://firebase.google.com/)
+- **OpenRouter API Key** - [Get yours](https://openrouter.ai/)
 
 ### Backend Setup
 
@@ -106,11 +157,32 @@ SavoraAI/
 │   ├── src/
 │   │   ├── App.jsx         # Main app component
 │   │   ├── firebase.js     # Firebase configuration
-│   │   ├── pages/          # Page components
-│   │   │   ├── Home.jsx
-│   │   │   ├── Login.jsx
-│   │   │   ├── History.jsx
-│   │   │   └── Favorites.jsx
+│  🛠️ Tech Stack
+
+<table>
+<tr>
+<td align="center" width="50%">
+
+**Frontend**
+- ⚛️ React 18
+- ⚡ Vite
+- 🔥 Firebase (Auth & Firestore)
+- 🎤 Web Speech API
+- 🎨 Custom CSS
+
+</td>
+<td align="center" width="50%">
+
+**Backend**
+- 🐍 Flask
+- 🌐 Flask-CORS
+- 🤖 OpenRouter API
+- 🧠 Google Gemma 2 9B IT
+- 🔐 Python dotenv
+
+</td>
+</tr>
+</table>
 │   │   └── components/     # Reusable components
 │   │       ├── Navbar.jsx
 │   │       ├── RecipeCard.jsx
@@ -130,13 +202,39 @@ SavoraAI/
 
 **Backend:** Flask, Flask-CORS, OpenRouter API, Google Gemma 2 9B IT, Python dotenv
 
-## Security ⚠️
+## 🤝 Contributing
 
-Don't commit sensitive data to Git. All API keys and credentials should be in `.env` files, which are already ignored by git.
+While this is a personal project, I appreciate feedback and suggestions! If you find any bugs or have ideas for improvements:
 
-## API Endpoints
+1. Open an issue describing the bug or feature request
+2. Feel free to fork and experiment
+3. Share your feedback
 
-The backend API runs on `http://localhost:5000` with these endpoints:
+## 📜 License & Usage
+
+**© 2026 Suraj. All Rights Reserved.**
+
+This project is provided for **educational and demonstration purposes only**. 
+
+⚠️ **Usage Restrictions:**
+- You may **view and study** the code for learning purposes
+- You may **not redistribute, modify, or use** this code for commercial purposes
+- You may **not claim** this work as your own
+- **Contact me** for permission if you wish to use any part of this project
+
+For collaboration or licensing inquiries, please open an issue or reach out directly.
+
+---
+
+<div align="center">
+
+**Made with ❤️ by [Suraj](https://github.com/codesbysuraj)**
+
+If you found this project interesting, give it a ⭐!
+
+[Report Bug](https://github.com/codesbysuraj/SavoraAI/issues) • [Request Feature](https://github.com/codesbysuraj/SavoraAI/issues)
+
+</div>oints:
 
 - `GET /` - Health check
 - `POST /generate` - Generate recipe from ingredients
