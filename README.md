@@ -249,7 +249,7 @@ For collaboration or licensing inquiries, please open an issue or reach out dire
 
 <div align="center">
 
-**Made with ❤️ by [Suraj](https://github.com/codesbysuraj) & [Yashica Thanekar](https://github.com/YashicaThanekar)**
+**Made by [Suraj](https://github.com/codesbysuraj) & [Yashica Thanekar](https://github.com/YashicaThanekar)**
 
 If you found this project interesting, give it a ⭐!
 
